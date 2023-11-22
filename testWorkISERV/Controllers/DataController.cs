@@ -2,6 +2,7 @@
 using testWorkISERV.Methods;
 using testWorkISERV.Models;
 using testWorkISERV.Services.Data;
+using testWorkISERV.Services.ETL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,9 +13,11 @@ namespace testWorkISERV.Controllers
     public class DataController : ControllerBase
     {
         private readonly IDataService _dataService;
-        public DataController(IDataService dataService)
+        private readonly IEtlService _etlService;
+        public DataController(IDataService dataService, IEtlService etlService)
         {
             _dataService = dataService;
+            _etlService = etlService;
         }
 
         [HttpGet]

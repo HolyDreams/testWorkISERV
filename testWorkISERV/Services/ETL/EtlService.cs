@@ -5,7 +5,7 @@ using testWorkISERV.Services.SQL;
 
 namespace testWorkISERV.Services.ETL
 {
-    public class EtlService : IDisposable
+    public class EtlService : IEtlService
     {
         private readonly SQLRequestService _request;
         bool started;
@@ -15,25 +15,9 @@ namespace testWorkISERV.Services.ETL
             _request = new SQLRequestService();
         }
 
-        public Task StartAsync()
+        public async Task StartUpdate()
         {
-            if (started)
-                return Task.CompletedTask;
-
-            started = true;
-            startSearch();
-
-            while (good)
-            {
-                if (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0)
-                {
-                    startSearch();
-                }
-
-                Task.Delay(60000).Wait();
-            }
-
-            return Task.CompletedTask;
+            await startSearch();
         }
         private async Task startSearch()
         {
@@ -69,11 +53,6 @@ namespace testWorkISERV.Services.ETL
 
             var sql = new SQLRequestService();
             sql.InsertData(dbData);
-        }
-
-        public void Dispose()
-        {
-            good = false;
         }
     }
 }

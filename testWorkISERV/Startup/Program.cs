@@ -13,7 +13,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEditCountryService, EditCountryService>();
 builder.Services.AddScoped<IDataService, DataService>();
 
-builder.Services.AddSingleton<EtlService, EtlService>();
+builder.Services.AddSingleton<IEtlService, EtlService>();
+
+builder.Services.AddHostedService<EtlAutoUpdateService>();
 
 var app = builder.Build();
 
@@ -28,9 +30,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-var etl = new EtlService();
-var etlTask = new Thread(() => etl.StartAsync());
-etlTask.Start();
 
 app.Run();

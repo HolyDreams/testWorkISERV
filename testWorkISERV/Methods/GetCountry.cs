@@ -27,6 +27,16 @@ namespace testWorkISERV.Methods
 
             return Countrys[id] ?? null;
         }
+        public static void AddCountry(Guid id, string name)
+        {
+            if (!Countrys.ContainsKey(id))
+                Countrys.Add(id, name);
+        }
+        public static void RemoveCountry(Guid id)
+        {
+            if (Countrys.ContainsKey(id))
+                Countrys.Remove(id);
+        }
         private static void setCountry()
         {
             Countrys = new Dictionary<Guid, string>();
